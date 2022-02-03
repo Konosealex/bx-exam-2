@@ -2,6 +2,7 @@
 
 $eventManager = \Bitrix\Main\EventManager::getInstance();
 $eventManager->addEventHandler("iblock", "OnBeforeIBlockElementUpdate", "OnBeforeIBlockElementUpdate");
+$eventManager->addEventHandler("main", "OnEpilog", "OnEpilog");
 
 function OnBeforeIBlockElementUpdate(&$arFields)
 {
@@ -24,5 +25,22 @@ function OnBeforeIBlockElementUpdate(&$arFields)
             $APPLICATION->ThrowException(GetMessage('ERROR', $count));
             return false;
         }
+    }
+}
+
+function OnEpilog()
+{
+    if (ERROR_404 && ERROR_404 == 'Y') {
+        global $APPLICATION;
+        $currentPage = $APPLICATION->GetCurUri();
+
+        CEventLog::Add(
+            [
+                "SEVERITY"      => "INFO",
+                "AUDIT_TYPE_ID" => "ERROR_404",
+                "MODULE_ID"     => "main",
+                "DESCRIPTION"   => $currentPage
+            ]
+        );
     }
 }
