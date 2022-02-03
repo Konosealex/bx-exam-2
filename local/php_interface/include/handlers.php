@@ -3,6 +3,7 @@
 $eventManager = \Bitrix\Main\EventManager::getInstance();
 $eventManager->addEventHandler("iblock", "OnBeforeIBlockElementUpdate", "OnBeforeIBlockElementUpdate");
 $eventManager->addEventHandler("main", "OnEpilog", "OnEpilog");
+$eventManager->addEventHandler("main", "OnBeforeEventAdd", "OnBeforeEventAdd");
 
 function OnBeforeIBlockElementUpdate(&$arFields)
 {
@@ -40,6 +41,33 @@ function OnEpilog()
                 "AUDIT_TYPE_ID" => "ERROR_404",
                 "MODULE_ID"     => "main",
                 "DESCRIPTION"   => $currentPage
+            ]
+        );
+    }
+}
+
+function OnBeforeEventAdd(&$event, &$lid, &$arFields)
+{
+    if ($event == EVENT_NAME) {
+        wtf($arFields);
+        global $USER;
+        if ($USER->IsAuthorized()) {
+            $currentUserId = $USER->GetID();
+            $currentUserLogin = $USER->GetLogin();
+            $currentUserName = $USER->GetFirstName();
+            $message = "Пользователь авторизован: {$currentUserId} ({$currentUserLogin}) {$currentUserName}, данные из формы: {$arFields['NAME']}";
+        } else {
+            $message = "Пользователь не авторизован, данные из формы: {$arFields['NAME']}";
+        }
+
+        $description = ['#AUTHOR#' => $message];
+
+        CEventLog::Add(
+            [
+                "SEVERITY"      => "INFO",
+                "AUDIT_TYPE_ID" => "FEEDBACK_FORM",
+                "MODULE_ID"     => "main",
+                "DESCRIPTION"   => GetMessage('FEEDBACK_FORM', $description),
             ]
         );
     }
