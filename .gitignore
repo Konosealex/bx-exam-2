@@ -1,0 +1,49 @@
+# ОС
+__MACOSX/
+.DS_Store
+Thumbs.db
+/cgi-bin
+
+# Ненужные файлы
+*.gz
+*.tar
+*.zip
+*.rar
+*.dat
+*.dt
+*.pdf
+*.psd
+*.flv
+*.xlsx
+*.xls
+*.csv
+*.docx
+*.doc
+*.phar
+*.mmdb
+*.txt
+!robots.txt
+/local/**/assets
+web.config
+/test.php
+/test
+
+# Настройки IDE
+/.idea/
+/nbproject/
+
+# Библиотеки и зависимости
+bower_components
+node_modules
+vendor
+*.lock
+.sass-cache
+
+# Логи
+/log/
+/logs/
+*.log
+
+# Ядро
+/bitrix/*
+/upload/
