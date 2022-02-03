@@ -4,6 +4,7 @@ $eventManager = \Bitrix\Main\EventManager::getInstance();
 $eventManager->addEventHandler("iblock", "OnBeforeIBlockElementUpdate", "OnBeforeIBlockElementUpdate");
 $eventManager->addEventHandler("main", "OnEpilog", "OnEpilog");
 $eventManager->addEventHandler("main", "OnBeforeEventAdd", "OnBeforeEventAdd");
+$eventManager->addEventHandler("main", "OnBuildGlobalMenu", "OnBuildGlobalMenu");
 
 function OnBeforeIBlockElementUpdate(&$arFields)
 {
@@ -70,5 +71,23 @@ function OnBeforeEventAdd(&$event, &$lid, &$arFields)
                 "DESCRIPTION"   => GetMessage('FEEDBACK_FORM', $description),
             ]
         );
+    }
+}
+
+function OnBuildGlobalMenu(&$aGlobalMenu, &$aModuleMenu)
+{
+    global $USER;
+    if (in_array(CONTENT_MANAGER_GROUP_ID, $USER->GetUserGroupArray())) {
+        foreach ($aGlobalMenu as $key => $globalMenu) {
+            if ($key != 'global_menu_content') {
+                unset($aGlobalMenu[$key]);
+            }
+        }
+
+        foreach ($aModuleMenu as $key => $moduleMenu) {
+            if ($moduleMenu['items_id'] != 'menu_iblock_/news') {
+                unset($aModuleMenu[$key]);
+            }
+        }
     }
 }

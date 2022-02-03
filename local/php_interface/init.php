@@ -6,3 +6,4 @@ require_once 'include/handlers.php';
 
 const PRODUCTION_IBLOCK_ID = 2;
 const EVENT_NAME = 'FEEDBACK_FORM';
+const CONTENT_MANAGER_GROUP_ID = 5;
