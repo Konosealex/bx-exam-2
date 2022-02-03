@@ -5,6 +5,7 @@ $eventManager->addEventHandler("iblock", "OnBeforeIBlockElementUpdate", "OnBefor
 $eventManager->addEventHandler("main", "OnEpilog", "OnEpilog");
 $eventManager->addEventHandler("main", "OnBeforeEventAdd", "OnBeforeEventAdd");
 $eventManager->addEventHandler("main", "OnBuildGlobalMenu", "OnBuildGlobalMenu");
+$eventManager->addEventHandler("main", "OnPageStart", "OnPageStart");
 
 function OnBeforeIBlockElementUpdate(&$arFields)
 {
@@ -89,5 +90,32 @@ function OnBuildGlobalMenu(&$aGlobalMenu, &$aModuleMenu)
                 unset($aModuleMenu[$key]);
             }
         }
+    }
+}
+
+function OnPageStart()
+{
+    global $APPLICATION;
+    $currentDir = $APPLICATION->GetCurDir();
+    $currentPage = $APPLICATION->GetCurPage();
+    if (($currentDir == '/bitrix/admin') || (!CModule::IncludeModule("iblock"))) {
+        return false;
+    }
+
+    $arFilter = [
+        "NAME"   => $currentPage,
+        "ACTIVE" => "Y"
+    ];
+    $arSelect = [
+        "ID",
+        "NAME",
+        "PROPERTY_TITLE",
+        "PROPERTY_DECRIPTION"
+    ];
+    $obElement = CIBlockElement::GetList([], $arFilter, false, false, $arSelect);
+    $arElement = $obElement->GetNext();
+    if ($arElement) {
+        $APPLICATION->SetPageProperty('title', $arElement['PROPERTY_TITLE_VALUE']);
+        $APPLICATION->SetPageProperty('description', $arElement['PROPERTY_DECRIPTION_VALUE']);
     }
 }
