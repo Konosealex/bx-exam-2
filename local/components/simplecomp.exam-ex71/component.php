@@ -28,9 +28,15 @@ if (!$productionIblockId || !$classificatorIblockId || !$propertyCode || !$detai
     return;
 }
 
+$request = \Bitrix\Main\Application::getInstance()->getContext()->getRequest();
+$bFilter = false;
+if ($request->get('F') == 'Y') {
+    $bFilter = true;
+}
+
 $arUserGroups = $USER->GetUserGroupArray();
 
-if ($this->StartResultCache(false, [$arUserGroups])) {
+if ($this->StartResultCache(false, [$arUserGroups, $bFilter])) {
     $arResult["CLASSIFIER"] = [];
 
     $arFilter = [
@@ -60,6 +66,15 @@ if ($this->StartResultCache(false, [$arUserGroups])) {
         "CHECK_PERMISSIONS"         => "Y",
         "ACTIVE"                    => "Y",
     ];
+
+    if ($bFilter) {
+        $arFilter[] = [
+            "LOGIC" => "OR",
+            ["<=PROPERTY_PRICE" => 1700, "=PROPERTY_MATERIAL" => "Дерево, ткань"],
+            ["<PROPERTY_RADIUS" => 1500, "=PROPERTY_MATERIAL" => "Металл, пластик"]
+        ];
+        $this->AbortResultCache();
+    }
     $arSelect = [
         "ID",
         "IBLOCK_ID",
@@ -84,6 +99,9 @@ if ($this->StartResultCache(false, [$arUserGroups])) {
     }
 
     $arResult["COUNT_CLASSIFIER"] = count($arResult["CLASSIFIER"]);
+
+    $filterUrl = $APPLICATION->GetCurPage() . '?F=Y';
+    $arResult['FILTER_LINK'] = "<a href='{$filterUrl}'>{$filterUrl}</a>";
 
     $this->SetResultCacheKeys(["COUNT_CLASSIFIER"]);
 }

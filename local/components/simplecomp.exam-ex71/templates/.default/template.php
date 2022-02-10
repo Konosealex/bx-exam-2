@@ -3,6 +3,7 @@
 }
 /** @var array $arResult */
 ?>
+<p><b><?= GetMessage("SIMPLECOMP_EXAM2_FILTER") ?> <?= $arResult['FILTER_LINK'] ?></b></p>
 <p><b><?= GetMessage("SIMPLECOMP_EXAM2_CAT_TITLE") ?></b></p>
 <ul>
     <?php foreach ($arResult["CLASSIFIER"] as $section): ?>
