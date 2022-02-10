@@ -50,6 +50,10 @@ if ($this->StartResultCache(false, [$arUserGroups])) {
         $arResult["CLASSIFIER"][$arClassificator["ID"]] = $arClassificator;
     }
 
+    $arOrder = [
+        "NAME" => "ASC",
+        "SORT" => "ASC"
+    ];
     $arFilter = [
         "IBLOCK_ID"                 => $productionIblockId,
         "PROPERTY_" . $propertyCode => $arResult["CLASSIFIER_ID"],
@@ -61,11 +65,13 @@ if ($this->StartResultCache(false, [$arUserGroups])) {
         "IBLOCK_ID",
         "NAME",
         "PREVIEW_TEXT",
+        'DETAIL_PAGE_URL'
     ];
 
     $arResult["ELEMENTS"] = [];
 
-    $obProduct = CIBlockElement::GetList([], $arFilter, false, false, $arSelect);
+    $obProduct = CIBlockElement::GetList($arOrder, $arFilter, false, false, $arSelect);
+    $obProduct->SetUrlTemplates($detailLinkTemplate);
     while ($arProduct = $obProduct->GetNextElement()) {
         $arProductList = $arProduct->GetFields();
         $arProductList["PROPERTY"] = $arProduct->GetProperties();

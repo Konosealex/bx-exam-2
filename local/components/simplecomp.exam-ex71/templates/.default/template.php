@@ -13,6 +13,7 @@
                     <li><?= $arResult["ELEMENTS"][$elem]["NAME"] ?>
                         - <?= $arResult["ELEMENTS"][$elem]["PROPERTY"]["PRICE"]["VALUE"] ?>
                         - <?= $arResult["ELEMENTS"][$elem]["PROPERTY"]["MATERIAL"]["VALUE"] ?>
+                        - <a href="<?= $arResult["ELEMENTS"][$elem]["DETAIL_PAGE_URL"] ?>"><?= $arResult["ELEMENTS"][$elem]["DETAIL_PAGE_URL"] ?></a>
                     </li>
                 <?php endforeach; ?>
             <?php endif; ?>

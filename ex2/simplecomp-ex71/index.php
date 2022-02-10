@@ -10,7 +10,7 @@ $APPLICATION->SetTitle("Простой компонент ex71");
 		"CACHE_TIME" => "36000000",
 		"PRODUCTS_IBLOCK_ID" => "2",
 		"CLASSIFICATOR_IBLOCK_ID" => "7",
-		"DETAIL_LINK" => "/products/#SECTION_ID#/#ELEMENT_ID#/",
+		"DETAIL_LINK" => "catalog_exam/#SECTION_ID#/#ELEMENT_CODE#",
 		"PROPERTY_CODE" => "COMPANY"
 	),
 	false
