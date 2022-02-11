@@ -95,6 +95,16 @@ if ($this->StartResultCache(false, [$arUserGroups, $bFilter])) {
             $arResult["CLASSIFIER"][$product]["ELEMENTS_ID"][] = $arProductList["ID"];
         }
 
+        $arButtons = CIBlock::GetPanelButtons(
+            $productionIblockId,
+            $arProductList['ID'],
+            0,
+            ["SECTION_BUTTONS" => false, "SESSID" => false]
+        );
+        $arItem["EDIT_LINK"] = $arButtons["edit"]["edit_element"]["ACTION_URL"];
+        $arItem["DELETE_LINK"] = $arButtons["edit"]["delete_element"]["ACTION_URL"];
+        $arResult["ITEMS"][$arProductList["ID"]][] = $arItem;
+
         $arResult["ELEMENTS"][$arProductList["ID"]] = $arProductList;
     }
 
