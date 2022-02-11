@@ -104,5 +104,8 @@ if ($this->StartResultCache(false, [$arUserGroups, $bFilter])) {
     $arResult['FILTER_LINK'] = "<a href='{$filterUrl}'>{$filterUrl}</a>";
 
     $this->SetResultCacheKeys(["COUNT_CLASSIFIER"]);
+
+    $this->includeComponentTemplate();
 }
-$this->includeComponentTemplate();
+
+$APPLICATION->SetTitle(GetMessage('H1') . $arResult['COUNT_CLASSIFIER']);
