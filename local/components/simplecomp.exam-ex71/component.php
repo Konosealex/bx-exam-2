@@ -49,6 +49,9 @@ $arNavigation = CDBResult::GetNavParams($arNavParams);
 $arUserGroups = $USER->GetUserGroupArray();
 
 if ($this->StartResultCache(false, [$arUserGroups, $bFilter, $arNavigation])) {
+    global $CACHE_MANAGER;
+    $CACHE_MANAGER->StartTagCache('');
+
     $arResult["CLASSIFIER"] = [];
     $arPrice = [];
 
@@ -133,6 +136,8 @@ if ($this->StartResultCache(false, [$arUserGroups, $bFilter, $arNavigation])) {
     $this->SetResultCacheKeys(["COUNT_CLASSIFIER", 'MIN_PRICE', 'MAX_PRICE']);
 
     $this->includeComponentTemplate();
+    $CACHE_MANAGER->RegisterTag('iblock_id_' . IB_SERVICES);
+    $CACHE_MANAGER->EndTagCache();
 }
 
 if ($USER->IsAuthorized()) {
