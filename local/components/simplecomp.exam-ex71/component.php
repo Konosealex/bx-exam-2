@@ -34,9 +34,21 @@ if ($request->get('F') == 'Y') {
     $bFilter = true;
 }
 
+$newsCount = intval($arParams["NEWS_COUNT"]);
+if ($newsCount <= 0) {
+    $newsCount = 20;
+}
+
+$arNavParams = [
+    "nPageSize"          => $newsCount,
+    "bDescPageNumbering" => false,
+    "bShowAll"           => false,
+];
+$arNavigation = CDBResult::GetNavParams($arNavParams);
+
 $arUserGroups = $USER->GetUserGroupArray();
 
-if ($this->StartResultCache(false, [$arUserGroups, $bFilter])) {
+if ($this->StartResultCache(false, [$arUserGroups, $bFilter, $arNavigation])) {
     $arResult["CLASSIFIER"] = [];
     $arPrice = [];
 
@@ -86,7 +98,7 @@ if ($this->StartResultCache(false, [$arUserGroups, $bFilter])) {
 
     $arResult["ELEMENTS"] = [];
 
-    $obProduct = CIBlockElement::GetList($arOrder, $arFilter, false, false, $arSelect);
+    $obProduct = CIBlockElement::GetList($arOrder, $arFilter, false, $arNavParams, $arSelect);
     $obProduct->SetUrlTemplates($detailLinkTemplate);
     while ($arProduct = $obProduct->GetNextElement()) {
         $arProductList = $arProduct->GetFields();
@@ -116,6 +128,7 @@ if ($this->StartResultCache(false, [$arUserGroups, $bFilter])) {
 
     $filterUrl = $APPLICATION->GetCurPage() . '?F=Y';
     $arResult['FILTER_LINK'] = "<a href='{$filterUrl}'>{$filterUrl}</a>";
+    $arResult["NAV_STRING"] = $obProduct->GetPageNavString(GetMessage('SIMPLECOMP_EXAM2_DESC_LIST'));
 
     $this->SetResultCacheKeys(["COUNT_CLASSIFIER", 'MIN_PRICE', 'MAX_PRICE']);
 

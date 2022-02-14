@@ -21,6 +21,11 @@ $arComponentParameters = [
             "NAME" => GetMessage("SIMPLECOMP_EXAM2_PROPERTY_CODE"),
             "TYPE" => "STRING",
         ],
+        "NEWS_COUNT"              => [
+            "NAME"    => GetMessage("T_IBLOCK_DESC_LIST_CONT"),
+            "TYPE"    => "STRING",
+            "DEFAULT" => "20",
+        ],
         "CACHE_TIME"              => ["DEFAULT" => 36000000],
     ],
 ];

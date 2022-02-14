@@ -36,3 +36,4 @@
         </ul>
     <?php endforeach; ?>
 </ul>
+<?= $arResult["NAV_STRING"] ?>

@@ -11,7 +11,8 @@ $APPLICATION->SetTitle("Простой компонент ex71");
 		"PRODUCTS_IBLOCK_ID" => "2",
 		"CLASSIFICATOR_IBLOCK_ID" => "7",
 		"DETAIL_LINK" => "catalog_exam/#SECTION_ID#/#ELEMENT_CODE#",
-		"PROPERTY_CODE" => "COMPANY"
+		"PROPERTY_CODE" => "COMPANY",
+		"NEWS_COUNT" => "2"
 	),
 	false
 );?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
