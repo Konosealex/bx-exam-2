@@ -138,7 +138,17 @@ $APPLICATION->IncludeComponent("bitrix:search.form", "flat", Array(
 					</div>
 				</div>
 
-				<div class="information-block">
+                <div style="color:red; margin: 34px 15px 35px 15px">
+                    <div>
+                        <?php $APPLICATION->ShowViewContent('min_price'); ?>
+                    </div>
+                    <div>
+                        <?php $APPLICATION->ShowViewContent('max_price'); ?>
+                    </div>
+                </div>
+
+
+                <div class="information-block">
 					<div class="top"></div>
 					<div class="information-block-inner">
 						<h3><?=GetMessage('CFT_FEATURED')?></h3>

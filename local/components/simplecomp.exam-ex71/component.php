@@ -38,6 +38,7 @@ $arUserGroups = $USER->GetUserGroupArray();
 
 if ($this->StartResultCache(false, [$arUserGroups, $bFilter])) {
     $arResult["CLASSIFIER"] = [];
+    $arPrice = [];
 
     $arFilter = [
         "IBLOCK_ID"         => $classificatorIblockId,
@@ -106,14 +107,17 @@ if ($this->StartResultCache(false, [$arUserGroups, $bFilter])) {
         $arResult["ITEMS"][$arProductList["ID"]][] = $arItem;
 
         $arResult["ELEMENTS"][$arProductList["ID"]] = $arProductList;
+        $arPrice[] = $arResult["ELEMENTS"][$arProductList["ID"]]['PROPERTY']['PRICE']['VALUE'];
     }
+    $arResult['MIN_PRICE'] = min($arPrice);
+    $arResult['MAX_PRICE'] = max($arPrice);
 
     $arResult["COUNT_CLASSIFIER"] = count($arResult["CLASSIFIER"]);
 
     $filterUrl = $APPLICATION->GetCurPage() . '?F=Y';
     $arResult['FILTER_LINK'] = "<a href='{$filterUrl}'>{$filterUrl}</a>";
 
-    $this->SetResultCacheKeys(["COUNT_CLASSIFIER"]);
+    $this->SetResultCacheKeys(["COUNT_CLASSIFIER", 'MIN_PRICE', 'MAX_PRICE']);
 
     $this->includeComponentTemplate();
 }
@@ -132,3 +136,6 @@ if ($USER->IsAuthorized()) {
 }
 
 $APPLICATION->SetTitle(GetMessage('H1') . $arResult['COUNT_CLASSIFIER']);
+
+$APPLICATION->AddViewContent('min_price', "Минимальная цена:" . $arResult['MIN_PRICE']);
+$APPLICATION->AddViewContent('max_price', "Максимальная цена:" . $arResult['MAX_PRICE']);
