@@ -118,4 +118,17 @@ if ($this->StartResultCache(false, [$arUserGroups, $bFilter])) {
     $this->includeComponentTemplate();
 }
 
+if ($USER->IsAuthorized()) {
+    $arButtons = CIBlock::GetPanelButtons($productionIblockId);
+    $editAdminLink = $arButtons["submenu"]["element_list"]["ACTION_URL"];
+
+    $this->AddIncludeAreaIcon(
+        [
+            "URL"            => $editAdminLink,
+            "TITLE"          => GetMessage('MAIN_MENU_ADD_NEW'),
+            "IN_PARAMS_MENU" => true
+        ]
+    );
+}
+
 $APPLICATION->SetTitle(GetMessage('H1') . $arResult['COUNT_CLASSIFIER']);
