@@ -7,3 +7,8 @@ div.news-detail img.detail_picture
 {
 	color:#486DAA;
 }
+
+div.complaint-result {
+	color: red;
+	margin: 10px 0;
+}

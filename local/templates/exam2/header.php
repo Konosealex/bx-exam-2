@@ -125,7 +125,7 @@ $APPLICATION->IncludeFile(
 					</div>
 				</div>
 
-                <div class="content-block">Л
+                <div class="content-block">
                     <div class="content-block-inner">
                         <h3><?=GetMessage('CFT_LANG_CANGE')?></h3>
                         <?$APPLICATION->IncludeComponent(

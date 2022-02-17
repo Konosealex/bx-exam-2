@@ -1,4 +1,7 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
+<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+CJSCore::Init(["ajax"]);
+$complaintLink = $APPLICATION->GetCurPage() . "?complaint=Y";
+?>
 <div class="news-detail">
 	<?if($arParams["DISPLAY_PICTURE"]!="N" && is_array($arResult["DETAIL_PICTURE"])):?>
 		<img class="detail_picture" src="<?=$arResult["DETAIL_PICTURE"]["SRC"]?>" width="<?=$arResult["DETAIL_PICTURE"]["WIDTH"]?>" height="<?=$arResult["DETAIL_PICTURE"]["HEIGHT"]?>" alt="<?=$arResult["NAME"]?>"  title="<?=$arResult["NAME"]?>" />
@@ -40,3 +43,20 @@
 	<?endforeach;?>
 	</div>
 </div>
+<a id="send-complaint" class="complaint" href="<?= $complaintLink ?>"><?= GetMessage('COMPLAINT');?></a>
+<?php if ($arParams['SET_AJAX_COMPLAINT'] == 'Y'): ?>
+    <script>
+        BX.ready(function () {
+            BX.bind(BX('send-complaint'), 'click', function (e) {
+                e.preventDefault();
+                BX.ajax.get(
+                    '<?=$complaintLink?>',
+                    {},
+                    function (data) {
+                        BX.adjust(BX('complaint-result'), {html: data});
+                    }
+                );
+            });
+        });
+    </script>
+<?php endif; ?>
