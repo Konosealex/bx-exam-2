@@ -72,7 +72,8 @@ if ($this->StartResultCache()) {
         "PREVIEW_TEXT",
         "PROPERTY_PRICE",
         "PROPERTY_MATERIAL",
-        "PROPERTY_ARTNUMBER"
+        "PROPERTY_ARTNUMBER",
+        'DETAIL_PAGE_URL'
     ];
 
     $arResult["ELEMENTS"] = [];

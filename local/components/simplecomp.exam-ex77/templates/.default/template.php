@@ -22,6 +22,7 @@
                 - <?= $arResult["ELEMENTS"][$idElement]["PROPERTY_PRICE_VALUE"] ?>
                 - <?= $arResult["ELEMENTS"][$idElement]["PROPERTY_MATERIAL_VALUE"] ?>
                 - <?= $arResult["ELEMENTS"][$idElement]["PROPERTY_ARTNUMBER_VALUE"] ?>
+                - <a href="<?= $arResult["ELEMENTS"][$idElement]["DETAIL_PAGE_URL"] ?>"><?= $arResult["ELEMENTS"][$idElement]["DETAIL_PAGE_URL"] ?></a>
                 <?php endforeach; ?>
             </li>
         </ul>
