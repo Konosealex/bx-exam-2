@@ -7,6 +7,7 @@ $eventManager->addEventHandler("main", "OnBeforeEventAdd", "OnBeforeEventAdd");
 $eventManager->addEventHandler("main", "OnBuildGlobalMenu", "OnBuildGlobalMenu");
 $eventManager->addEventHandler("main", "OnPageStart", "OnPageStart");
 $eventManager->addEventHandler("iblock", "OnBeforeIBlockElementUpdate", "OnBeforeIBlockElementUpdateEx75");
+$eventManager->addEventHandler("search", "BeforeIndex", "BeforeIndex");
 
 function OnBeforeIBlockElementUpdate(&$arFields)
 {
@@ -137,4 +138,17 @@ function OnBeforeIBlockElementUpdateEx75(&$arFields)
             ]
         );
     }
+}
+
+function BeforeIndex($arFields)
+{
+    if (!CModule::IncludeModule("iblock")) {
+        return $arFields;
+    }
+
+    if ($arFields['MODULE_ID'] == 'iblock' && $arFields['PARAM2'] == IB_NEWS) {
+        $arFields['TITLE'] = TruncateText($arFields['BODY'], 50);
+    }
+
+    return $arFields;
 }

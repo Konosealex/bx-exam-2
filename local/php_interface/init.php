@@ -10,3 +10,4 @@ const EVENT_NAME = 'FEEDBACK_FORM';
 const CONTENT_MANAGER_GROUP_ID = 5;
 const IB_SERVICES = 3;
 const IB_COMPLAINT = 8;
+const IB_NEWS = 1;
