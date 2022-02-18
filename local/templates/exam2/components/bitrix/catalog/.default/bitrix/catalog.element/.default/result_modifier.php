@@ -22,4 +22,9 @@ $arResult['PRICES']['PRICE']['PRINT_VALUE'] = number_format($arResult['PROPERTIE
 $arResult['PRICES']['PRICE']['PRINT_VALUE'] .= ' '.$arResult['PROPERTIES']['PRICECURRENCY']['VALUE_ENUM'];
 $arResult['SLOGAN'] = TruncateText($arResult['PREVIEW_TEXT'], 40);
 $this->GetComponent()->SetResultCacheKeys(['SLOGAN']);
+
+if($arResult['DETAIL_PICTURE']['SRC']) {
+    $arResult['STYLE'] = "background-image: url({$arResult['DETAIL_PICTURE']['SRC']}); background-size: contain";
+    $this->GetComponent()->SetResultCacheKeys(['STYLE']);
+}
 ?>

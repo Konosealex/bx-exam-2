@@ -32,7 +32,7 @@ IncludeTemplateLangFile(__FILE__);
 <body>
 	<div id="page-wrapper">
 	<div id="panel"><?$APPLICATION->ShowPanel();?></div>
-		<div id="header">
+		<div id="header" style="<?php $APPLICATION->ShowProperty("head_style")?>">
 			
 			<table id="logo">
 				<tr>
