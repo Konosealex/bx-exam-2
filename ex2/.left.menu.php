@@ -34,14 +34,20 @@ $aMenuLinks = Array(
 		Array(), 
 		Array(), 
 		"" 
+	),
+	Array(
+		"Второй сайт", 
+		"/ex2/site2/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Простой компонент ex77", 
+		"/ex2/simplecomp-ex77/", 
+		Array(), 
+		Array(), 
+		"" 
 	)
-    ,
-    Array(
-        "Второй сайт",
-        "/ex2/site2/",
-        Array(),
-        Array(),
-        ""
-    )
 );
 ?>
