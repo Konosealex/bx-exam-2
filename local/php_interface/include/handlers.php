@@ -6,6 +6,7 @@ $eventManager->addEventHandler("main", "OnEpilog", "OnEpilog");
 $eventManager->addEventHandler("main", "OnBeforeEventAdd", "OnBeforeEventAdd");
 $eventManager->addEventHandler("main", "OnBuildGlobalMenu", "OnBuildGlobalMenu");
 $eventManager->addEventHandler("main", "OnPageStart", "OnPageStart");
+$eventManager->addEventHandler("iblock", "OnBeforeIBlockElementUpdate", "OnBeforeIBlockElementUpdateEx75");
 
 function OnBeforeIBlockElementUpdate(&$arFields)
 {
@@ -117,5 +118,23 @@ function OnPageStart()
     if ($arElement) {
         $APPLICATION->SetPageProperty('title', $arElement['PROPERTY_TITLE_VALUE']);
         $APPLICATION->SetPageProperty('description', $arElement['PROPERTY_DECRIPTION_VALUE']);
+    }
+}
+
+function OnBeforeIBlockElementUpdateEx75(&$arFields)
+{
+    if (stripos($arFields['PREVIEW_TEXT'], 'калейдоскоп') > 0) {
+        $arFields["PREVIEW_TEXT"] = str_replace("калейдоскоп", "[...]", $arFields['PREVIEW_TEXT']);
+        $newsId = ['#ID#' => $arFields['ID']];
+        $descroption = GetMessage('REPLACE', $newsId);;
+
+        CEventLog::Add(
+            [
+                "SEVERITY"    => "INFO",
+                "AUDIT_TYPE_ID" => "REPLACEMENT",
+                "MODULE_ID"   => "iblock",
+                "DESCRIPTION" => $descroption
+            ]
+        );
     }
 }
