@@ -20,13 +20,25 @@ if (!Loader::includeModule("iblock")) {
 $productionIblockId = (int)$arParams['PRODUCTS_IBLOCK_ID'];
 $servicesIblockId = (int)$arParams['SERVICES_IBLOCK_ID'];
 $classifaerProperty = (string)$arParams['CLASSIFICATOR_PROPERTY_CODE'];
+$newsCount = (string)$arParams['NEWS_COUNT'];
 
 if (!$productionIblockId || !$classifaerProperty || !$servicesIblockId) {
     ShowError(GetMessage("SIMPLECOMP_EXAM2_IBLOCK_PARAMS_NONE"));
     return;
 }
 
-if ($this->startResultCache()) {
+if ($newsCount <= 0) {
+    $newsCount = 20;
+}
+
+$arNavParams = [
+    "nPageSize"          => $newsCount,
+    "bDescPageNumbering" => false,
+    "bShowAll"           => false,
+];
+$arNavigation = CDBResult::GetNavParams($arNavParams);
+
+if ($this->startResultCache(false, [$arNavigation])) {
     $arFilter = [
         "IBLOCK_ID" => $servicesIblockId,
         "ACTIVE"    => "Y",
@@ -54,7 +66,7 @@ if ($this->startResultCache()) {
         "NAME",
     ];
     $arResult["ELEMENTS"] = [];
-    $obProduct = CIBlockElement::GetList([], $arFilter, false, false, $arSelect);
+    $obProduct = CIBlockElement::GetList([], $arFilter, false, $arNavParams, $arSelect);
     while ($arProduct = $obProduct->GetNextElement()) {
         $arProductList = $arProduct->GetFields();
         $arProductList["PROPERTY"] = $arProduct->GetProperties();
@@ -65,8 +77,10 @@ if ($this->startResultCache()) {
         $arResult["ELEMENTS"][$arProductList["ID"]] = $arProductList;
     }
     $arResult["COUNT_ELEM"] = count($arResult["ELEMENTS"]);
+    $arResult["NAV_STRING"] = $obProduct->GetPageNavString("Странички");
 
     $this->SetResultCacheKeys(["COUNT_ELEM"]);
+
 
     $this->includeComponentTemplate();
 }

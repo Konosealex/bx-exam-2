@@ -18,5 +18,9 @@ $arComponentParameters = [
             "TYPE" => "STRING",
         ],
         "CACHE_TIME"                  => ["DEFAULT" => 36000000],
+        "NEWS_COUNT"          => [
+            "NAME" => GetMessage("SIMPLECOMP_EXAM2_NEWS_COUNT"),
+            "TYPE" => "STRING",
+        ],
     ],
 ];
