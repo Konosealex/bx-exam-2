@@ -12,6 +12,15 @@
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);
 ?>
+<?php
+$url = "";
+$url = str_replace(
+    ["#SECTION_ID#", "#ELEMENT_ID#", "#PARAM1#"],
+    [$arResult["VARIABLES"]["SECTION_ID"], $arResult["VARIABLES"]["ELEMENT_ID"], "789"],
+    $arResult["FOLDER"] . $arResult["URL_TEMPLATES"]["exampage"]
+);
+?>
+<?=GetMessage("EXAM_TEXT_LINK_CP_PHOTO")?> <a href="<?=$url?>"><?=$url?></a>
 <?$ElementID = $APPLICATION->IncludeComponent(
 	"bitrix:photo.detail",
 	"",

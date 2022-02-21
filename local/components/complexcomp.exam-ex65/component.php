@@ -21,6 +21,7 @@ $arDefaultUrlTemplates404 = array(
 	"sections_top" => "",
 	"section" => "#SECTION_ID#/",
 	"detail" => "#SECTION_ID#/#ELEMENT_ID#/",
+	"exampage" => "#SECTION_ID#/#ELEMENT_ID#/edit/#PARAM1#/",
 );
 
 $arDefaultVariableAliases404 = array();
@@ -32,6 +33,7 @@ $arComponentVariables = array(
 	"SECTION_CODE",
 	"ELEMENT_ID",
 	"ELEMENT_CODE",
+	"PARAM1",
 );
 
 if($arParams["SEF_MODE"] == "Y")
@@ -105,7 +107,9 @@ else
 
 	$componentPage = "";
 
-	if(isset($arVariables["ELEMENT_ID"]) && intval($arVariables["ELEMENT_ID"]) > 0)
+    if(isset($arVariables["PARAM1"]) && strlen($arVariables["PARAM1"]) > 0)
+        $componentPage = "exampage";
+    elseif(isset($arVariables["ELEMENT_ID"]) && intval($arVariables["ELEMENT_ID"]) > 0)
 		$componentPage = "detail";
 	elseif(isset($arVariables["ELEMENT_CODE"]) && strlen($arVariables["ELEMENT_CODE"]) > 0)
 		$componentPage = "detail";
@@ -121,6 +125,7 @@ else
 		"URL_TEMPLATES" => Array(
 			"section" => htmlspecialcharsbx($APPLICATION->GetCurPage())."?".$arVariableAliases["SECTION_ID"]."=#SECTION_ID#",
 			"detail" => htmlspecialcharsbx($APPLICATION->GetCurPage())."?".$arVariableAliases["SECTION_ID"]."=#SECTION_ID#"."&".$arVariableAliases["ELEMENT_ID"]."=#ELEMENT_ID#",
+            "exampage" => htmlspecialcharsbx($APPLICATION->GetCurPage())."?".$arVariableAliases["SECTION_ID"]."=#SECTION_ID#"."&".$arVariableAliases["ELEMENT_ID"]."=#ELEMENT_ID#"."&".$arVariableAliases["PARAM1"]."=#PARAM1#"
 		),
 		"VARIABLES" => $arVariables,
 		"ALIASES" => $arVariableAliases
