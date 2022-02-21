@@ -9,6 +9,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
 
 /** @global CMain $APPLICATION */
 
+/** @global CUser $USER */
+
 use Bitrix\Main\Loader,
     Bitrix\Iblock;
 
@@ -24,6 +26,16 @@ $propertyCode = (string)$arParams['PROPERTY_CODE'];
 if (!$propertyCode || !$classificatorIblockId || !$productionIblockId) {
     ShowError(GetMessage("SIMPLECOMP_EXAM2_IBLOCK_PARAMS_NONE"));
     return;
+}
+
+if ($USER->IsAuthorized()) {
+
+    $this->AddIncludeAreaIcon(
+        [
+            'URL' => $APPLICATION->GetCurUri("hello=world"),
+            'TITLE' => "Hello world"
+        ]
+    );
 }
 
 if ($this->StartResultCache()) {
