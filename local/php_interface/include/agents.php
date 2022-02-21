@@ -2,6 +2,7 @@
 
 const ADMIN_GROUP_ID = 1;
 const MAIL_EVENT = 'NEW_REGISTRATION';
+const MAIL_EVENT_2 = 'EXAM_CHECK_COUNT';
 
 function checkUserCount()
 {
@@ -48,4 +49,26 @@ function checkUserCount()
     COption::SetOptionInt("main", "timeUserCheck", time());
 
     return 'checkUserCount();';
+}
+
+function examCheckCount()
+{
+    $by = "id";
+    $order = "asc";
+    $arFilter = [
+        'ID' => 1
+    ];
+    $arUser = CUser::GetList($by, $order, $arFilter)->GetNext();
+    if ($arUser) {
+        CEvent::Send(
+            MAIL_EVENT_2,
+            's1',
+            [
+                'MAIL_TO' => $arUser['EMAIL'],
+                'COUNT'   => CUser::GetCount(),
+            ]
+        );
+    }
+
+    return 'examCheckCount();';
 }
