@@ -8,6 +8,7 @@ $eventManager->addEventHandler("main", "OnBuildGlobalMenu", "OnBuildGlobalMenu")
 $eventManager->addEventHandler("main", "OnPageStart", "OnPageStart");
 $eventManager->addEventHandler("iblock", "OnBeforeIBlockElementUpdate", "OnBeforeIBlockElementUpdateEx75");
 $eventManager->addEventHandler("search", "BeforeIndex", "BeforeIndex");
+$eventManager->addEventHandler("iblock", "OnBeforeIBlockElementAdd", "OnBeforeIBlockElementAdd");
 
 function OnBeforeIBlockElementUpdate(&$arFields)
 {
@@ -131,10 +132,10 @@ function OnBeforeIBlockElementUpdateEx75(&$arFields)
 
         CEventLog::Add(
             [
-                "SEVERITY"    => "INFO",
+                "SEVERITY"      => "INFO",
                 "AUDIT_TYPE_ID" => "REPLACEMENT",
-                "MODULE_ID"   => "iblock",
-                "DESCRIPTION" => $descroption
+                "MODULE_ID"     => "iblock",
+                "DESCRIPTION"   => $descroption
             ]
         );
     }
@@ -151,4 +152,15 @@ function BeforeIndex($arFields)
     }
 
     return $arFields;
+}
+
+function OnBeforeIBlockElementAdd(&$arFields)
+{
+    if ($arFields["IBLOCK_ID"] == IB_NEWS) {
+        if (strpos($arFields["PREVIEW_TEXT"], 'калейдоскоп') !== false) {
+            global $APPLICATION;
+            $APPLICATION->throwException("Мы не используем слово калейдоскоп в анонсах новостей");
+            return false;
+        }
+    }
 }
